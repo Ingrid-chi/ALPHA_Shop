@@ -1,0 +1,21 @@
+input,
+select {
+  border: 1px solid $border-black;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: 400;
+  padding: 12px 16px;
+}
+
+%btn-back {
+  font-size: 14px;
+  font-weight: 400;
+  color: $black;
+}
+
+%btn-forward {
+  border-radius: 8px;
+  background-color: $pink;
+  color: $white;
+  font-size: 14px;
+}

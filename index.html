@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ALPHA Shop</title>
+    <link rel="stylesheet" href="main.css" />
+  </head>
+
+  <body>
+    <!-- ★★★★★ header ★★★★★ -->
+    <header>header</header>
+
+    <!-- ★★★★★ main ★★★★★ -->
+    <main>
+      <div class="main-content">
+        <!-- ★★★ checkout-content ★★★ -->
+        <div class="checkout-content">
+          <!-- ★ stepper-panel ★ START ★ -->
+          <div class="stepper-panel">
+            <h2>結帳</h2>
+
+            <div class="stepper-panel__container">
+              <!-- <div class="step checked">
+                <div class="step-circle"></div>
+                <div class="desktop step-label checked">寄送地址</div>
+              </div>
+
+              <div class="step-line"></div>
+
+              <div class="step active">
+                <div class="step-circle"></div>
+
+                <div class="desktop step-label active">運送方式</div>
+              </div>
+
+              <div class="step-line"></div>
+
+              <div class="step">
+                <div class="step-circle"></div>
+
+                <div class="desktop step-label">付款資訊</div>
+              </div> -->
+            </div>
+            <!-- container -->
+          </div>
+          <!-- stepper-panel -->
+          <!-- ★ stepper-panel ★ END ★ -->
+
+          <!-- ★ form-panel ★ START ★ -->
+          <div class="form-panel">
+            <!-- <h2>寄送地址</h2>
+            <div class="form-panel__container">
+              <div class="form-panel__container__title">
+                <label class="form-label">稱謂</label>
+
+                <select
+                  name="appellation"
+                  id="appellation"
+                  class="form-appellation"
+                >
+                  <option value="male" disabled selected>先生</option>
+                  <option value="female">小姐</option>
+                </select>
+              </div>
+
+              <div class="form-panel__container__name">
+                <label class="form-label">姓名</label>
+                <input
+                  id="name"
+                  type="text"
+                  class="form-name w-183"
+                  placeholder="請輸入姓名"
+                />
+              </div>
+
+              <div class="form-panel__container__phone">
+                <label class="form-label">電話</label>
+                <input
+                  id="phone"
+                  type="text"
+                  class=""
+                  placeholder="請輸入行動電話"
+                />
+              </div>
+
+              <div class="form-panel__container__email">
+                <label class="form-label">Email</label>
+                <input
+                  id="Email"
+                  type="text"
+                  class=""
+                  placeholder="請輸入電子郵件"
+                />
+              </div>
+
+              <div class="form-panel__container__local">
+                <label class="form-label">縣市</label>
+                <select name="local" id="local">
+                  <option value="local" disabled selected>請選擇縣市</option>
+                  <option value=""></option>
+                </select>
+              </div>
+
+              <div class="form-panel__container__address">
+                <label class="form-label">地址</label>
+                <input
+                  id="address"
+                  type="text"
+                  class=""
+                  placeholder="請輸入地址"
+                />
+              </div>
+            </div> -->
+            <!-- container -->
+          </div>
+          <!-- form-panel -->
+          <!-- ★ form-panel ★ END ★ -->
+        </div>
+        <!-- checkout-content -->
+
+        <!-- ★★★ cart-content ★★★ -->
+        <div class="cart-content">
+          <h2 class="desktop">購物籃</h2>
+          <!-- ★ cart-panel ★ START ★ -->
+          <div class="cart-panel">
+            <!-- 1 -->
+            <div class="cart-panel__product">
+              <div class="cart-panel__product__img">
+                <img src="cart-product-img-1.png" alt="" />
+              </div>
+
+              <div class="cart-panel__product__unconfirmed">
+                <p class="cart-panel__product__unconfirmed__name">
+                  破壞補丁修身牛仔褲
+                </p>
+
+                <div class="cart-btn">
+                  <button class="cart-btn-minus">-</button>
+                  <span class="cart-btn-count">1</span>
+                  <button class="cart-btn-add">+</button>
+                </div>
+
+                <p class="cart-panel__product__unconfirmed__price">$3,999</p>
+              </div>
+            </div>
+            <!-- cart-panel__product -->
+
+            <!-- 2 -->
+            <div class="cart-panel__product">
+              <div class="cart-panel__product__img">
+                <img src="cart-product-img-2.png" alt="" />
+              </div>
+
+              <div class="cart-panel__product__unconfirmed">
+                <p class="cart-panel__product__unconfirmed__name">
+                  刷色直筒牛仔褲
+                </p>
+
+                <div class="cart-btn">
+                  <button class="cart-btn-minus">-</button>
+                  <span class="cart-btn-count">1</span>
+                  <button class="cart-btn-add">+</button>
+                </div>
+
+                <p class="cart-panel__product__unconfirmed__price">$1,299</p>
+              </div>
+            </div>
+            <!-- cart-panel__product -->
+          </div>
+          <!-- cart-panel -->
+          <!-- ★ cart-panel ★ END ★ -->
+
+          <!-- ★ cart-total ★ START ★ -->
+          <div class="cart-total">
+            <div class="cart-total__product">
+              <span class="cart-total-line"></span>
+              <span class="cart-total-line"></span>
+              <div class="cart-total__product__delivery">
+                <p class="cart-total__product__delivery__title">運費</p>
+                <p class="cart-total__product__delivery__result">免費</p>
+              </div>
+
+              <div class="cart-total__product__subtotal">
+                <p class="cart-total__product__subtotal__title">小計</p>
+                <p class="cart-total__product__subtotal__result">$5,298</p>
+              </div>
+            </div>
+            <!-- cart-total__product -->
+          </div>
+          <!-- cart-total -->
+          <!-- ★ cart-total ★ END ★ -->
+        </div>
+        <!-- cart-content -->
+
+        <!-- ★★★ btn-content ★★★ -->
+        <div class="btn-content">
+          <div class="btn-line"></div>
+          <div class="btn-panel">
+            <div class="btn-back">
+              <button class="btn-back default">← 上一步</button>
+            </div>
+
+            <div class="btn-forward">
+              <button class="btn-forward">下一步 →</button>
+            </div>
+          </div>
+          <!-- btn-panel -->
+        </div>
+        <!--btn-content -->
+      </div>
+      <!-- main-content -->
+    </main>
+    <!-- main -->
+
+    <!-- ★★★★★ footer ★★★★★ -->
+    <footer class="desktop">footer</footer>
+
+    <script src="bundle.js"></script>
+  </body>
+</html>
+
+<!-- mobile version -->
