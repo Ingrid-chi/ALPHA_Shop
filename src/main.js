@@ -1,163 +1,313 @@
 import "./scss/main.scss";
-import "../img/cart-product-img-1.png";
-import "../img/cart-product-img-2.png";
+import "./static/images/alpha-shop-Logo.png";
 
-console.log("JS loaded!");
+// 導入配置資料
+import {
+  // headerList,
+  // headerIcons,
+  stepperItems,
+  formShippingAddressInputFields,
+  paymentInfoInputFields,
+  titleItems,
+  citiesItems,
+  productInfo,
+  shippingMethods,
+  footerInformation,
+} from "./config/pageConfigs";
 
-const stepperPanel = document.querySelector(".stepper-panel__container");
+// 設定一個當前的 step
+let currentStep = 1;
+
+// header 左側選單
+// const list = document.querySelector(".header__header-list");
+//header 右側icon
+// const iconList = document.querySelector(".header__action-row");
+
+// stepper
+const stepper = document.querySelector("#stepper");
+
+// container 左側
+const subTitle = document.querySelector("#sub-title");
 const formPanel = document.querySelector(".form-panel");
-const btnPanel = document.querySelector(".btn-panel");
 
-let currentStage = 1;
+// container 右側 cart
+const productPanel = document.querySelector(".product-panel");
 
+//
+// 導入 header 左側選單資料
+// 把陣列 headerList 用 map 迴圈導入後，用 join 合併字串列
+// const listContent = headerList.map((item) => `<li>${item}</li>`).join("");
+// const iconContent = headerIcons.map((icon) => `<img src="${icon}">`).join("");
+// list.innerHTML = listContent;
+// iconList.innerHTML = iconContent;
+
+// stepper
 const getStepper = () => {
-  stepperPanel.innerHTML = "";
-  let stepperPanelContent = "";
+  stepper.innerHTML = "";
+  let stepperContent = "";
 
-  stepperPanelContent += `
-  <div class="step checked">
-    <div class="step-circle"></div>
-    <div class="desktop step-label checked">寄送地址</div>
-  </div>
-
-  <div class="step-line"></div>
-    <div class="step active">
-    <div class="step-circle"></div>
-
-    <div class="desktop step-label active">運送方式</div>
-  </div>
-
-  <div class="step-line"></div>
-  <div class="step">
-    <div class="step-circle"></div>
-    <div class="desktop step-label">付款資訊</div>
-  </div>
-  `;
-
-  stepperPanel.innerHTML = stepperPanelContent;
+  // 從 pageConfiggs.js 裡，找到 stepperItems 這個 data 來做 forEach
+  stepperItems.forEach((step) => {
+    stepperContent += `
+    <div class="stepper">
+      <div class="stepper__circle${
+        // 如果 step.id === currentStep 或 step.isFinished 這兩個條件其一成立的話 就加上 "__active" 否則加上 ""
+        step.id === currentStep || step.isFinished ? "__active" : ""
+      }">
+      ${
+        // step.isFinished 如果為 true 回傳 "&#10004;" 否則回傳 step.id
+        step.isFinished ? "&#10004;" : step.id
+      }
+      </div>
+      <p class="stepper__text">${step.name}</p>
+    </div>
+    ${step.id !== 3 ? `<div class="stepper__line"></div>` : ""}`;
+  });
+  stepper.innerHTML = stepperContent;
 };
 
+// get subTitle, container 左側
+const getSubTitle = () => {
+  subTitle.innerHTML = "";
+  // 從 stepperItems 裡找到等於當前 step.id 裡面的 name
+  const subTitleContent = stepperItems.find(
+    (item) => item.id === currentStep
+  ).name;
+  subTitle.innerText = subTitleContent;
+};
+
+// get formContent, container 左側
 const getFormContent = () => {
   formPanel.innerHTML = "";
-  let formPanelContent = "";
 
-  // form 1
-  if (currentStage === 1) {
-    formPanelContent += `
-      <h2>寄送地址</h2>
-            <div class="form-panel__container">
-              <div class="form-panel__container__title">
-                <label class="form-label">稱謂</label>
+  const formContentBottom = "</form>";
 
-                <select
-                  name="appellation"
-                  id="appellation"
-                  class="form-appellation"
-                >
-                  <option value="male" disabled selected>先生</option>
-                  <option value="female">小姐</option>
-                </select>
-              </div>
+  let formContent = "";
+  let titleOptions = "";
+  let citiesOptions = "";
 
-              <div class="form-panel__container__name">
-                <label class="form-label">姓名</label>
-                <input
-                  id="name"
-                  type="text"
-                  class="form-name w-183"
-                  placeholder="請輸入姓名"
-                />
-              </div>
+  // 下拉式選單 ( 稱謂: 先生 / 小姐 )
+  titleItems.forEach(
+    (option) =>
+      (titleOptions += `<option value="${option.id}">
+      ${option.name}
+    </option>
+    `)
+  );
 
-              <div class="form-panel__container__phone">
-                <label class="form-label">電話</label>
-                <input
-                  id="phone"
-                  type="text"
-                  class=""
-                  placeholder="請輸入行動電話"
-                />
-              </div>
+  // 下拉式選單 ( 城市: 台北市 / 高雄市 )
+  citiesItems.forEach(
+    (option) =>
+      (citiesOptions += `<option value="${option}">
+      ${option}
+    </option>
+    `)
+  );
 
-              <div class="form-panel__container__email">
-                <label class="form-label">Email</label>
-                <input
-                  id="Email"
-                  type="text"
-                  class=""
-                  placeholder="請輸入電子郵件"
-                />
-              </div>
+  switch (currentStep) {
+    // 計送地址 form
+    case 1:
+      formShippingAddressInputFields.forEach((item, index) => {
+        if (item.placeholder === "") {
+          // 如果.placeholder === "" 就是下拉式選單 formContent
+          // ${index + 1} 從 0 開始，順序 + 1，對應到 scss input-123456
+          formContent += `
+        <form class="form-panel__row">
+        <div class="form-panel__row__input-field form-panel__row__input-${
+          index + 1
+        }">
+          <label for="${item.id}">
+            ${item.title}
+          </label>
+          <select
+            id="${item.id}"
+            name="${item.id}" class="form-panel__row__input-field__select">
+            ${item.id === "title" ? titleOptions : citiesOptions}
+          </select>
+          <i class="form-panel__row__input-field__icon"></i>
+        </div>
+        `;
+        } else {
+          // input formContent
+          formContent += `
+        <form class="form-panel__row">
+        <div class="form-panel__row__input-field form-panel__row__input-${
+          index + 1
+        }">
+          <label for="${item.id}">
+            ${item.title}
+          </label>
+          <input
+            id="${item.id}"
+            name="${item.id}"
+            type="text"
+            placeholder="${item.placeholder}" />
+        </div>
+        `;
+        }
+      });
+      break;
 
-              <div class="form-panel__container__local">
-                <label class="form-label">縣市</label>
-                <select name="local" id="local">
-                  <option value="local" disabled selected>請選擇縣市</option>
-                  <option value=""></option>
-                </select>
-              </div>
-
-              <div class="form-panel__container__address">
-                <label class="form-label">地址</label>
-                <input
-                  id="address"
-                  type="text"
-                  class=""
-                  placeholder="請輸入地址"
-                />
-              </div>
-            </div>
-  `;
-  }
-
-  // form 2
-  else if (currentStage === 2) {
-    formPanelContent += `
-    <form class="form-panel__radio-btn-group">
-      <div class="form-panel__radio-btn-group__option">
-        <input
-          type="radio"
-          id="general"
-          name="shipping-method"
-          value="general"
-        />
-        <label for="shipping-method">
-          <p>標準運送</p>
-          <p>約 3~7 個工作天</p>
-        </label>
-        <p>免費</p>
-      </div>
-
+    // 運送方式 form
+    case 2:
+      shippingMethods.forEach((item) => {
+        formContent += `
       <form class="form-panel__radio-btn-group">
-      <div class="form-panel__radio-btn-group__option">
-        <input
-          type="radio"
-          id="DHL"
-          name="shipping-method"
-          value="DHL"
-        />
-        <label for="shipping-method">
-          <p>DHL 貨運</p>
-          <p>48 小時內送達</p>
+        <label class="radio-container form-panel__radio-btn-group__option">
+          <div class="form-panel__radio-btn-group__option__description">
+            <p>${item.title}</p>
+            <p>${item.description}</p>
+          </div>
+          <input type="radio" name="radio">
+          <span class="checkmark"></span>
         </label>
-        <p>$500</p>
-      </div>
-  `;
+      `;
+      });
+      break;
+
+    // 付款資訊 form
+    case 3:
+      paymentInfoInputFields.forEach((item, index) => {
+        formContent += `
+        <form class="form-panel__row">
+        <div class="form-panel__row__input-field form-panel__row__step-3__input-${
+          index + 1
+        }">
+          <label for="${item.id}">
+            ${item.title}
+          </label>
+          <input
+            id="${item.id}"
+            name="${item.id}"
+            type="text"
+            placeholder="${item.placeholder}" />
+        </div>
+        `;
+      });
   }
 
-  // form 3
-  // else (currentStage === 3) {
-  //   formPanelContent += `
+  formPanel.innerHTML = formContent + formContentBottom;
+  // ※※※※※
+  if (currentStep === 2) {
+    const radioOption = document.querySelectorAll(
+      ".form-panel__radio-btn-group__option"
+    );
 
-  // `;
-  // }
-
-  formPanel.innerHTML = formPanelContent;
+    radioOption.forEach((option) => {
+      option.addEventListener("click", () => {
+        for (let i = 0; i < radioOption.length; i++) {
+          radioOption[i].classList.remove(
+            "form-panel__radio-btn-group__option__checked"
+          );
+        }
+        option.classList.add("form-panel__radio-btn-group__option__checked");
+      });
+    });
+  }
 };
 
-const renderFullPage = () => {
+const getProductInfo = () => {
+  productPanel.innerHTML = "";
+  let productContent = "";
+
+  productInfo.forEach(
+    (item) =>
+      (productContent += `
+  <div class="product-panel__product">
+    <img src="${item.image}" />
+    <div class="product-panel__product__info">
+      <div>
+        <p>${item.name}</p>
+        <div class="product-panel__button-group">
+          <button class="product-panel__button-group__minus">
+            -
+          </button>
+          <p>1</p>
+          <button class="product-panel__button-group__plus">
+            +
+          </button>
+        </div>
+      </div>
+      <p>$${item.price}</p>
+    </div>
+  </div>
+  `)
+  );
+
+  productPanel.innerHTML = productContent;
+};
+
+const getActionButtonGroupContent = () => {
+  const buttonGroup = document.querySelector(".action-button-group");
+
+  let buttonGroupContent = "";
+  buttonGroup.innerHTML = "";
+
+  if (currentStep === 1) {
+    buttonGroupContent += `
+    <div class="action-button-group__previous"></div>
+    <button class="action-button-group__next">
+      下一步
+      <div class="action-button-group__line-right"></div>
+      <div class="action-button-group__arrow-right"></div>
+    </button>
+    `;
+  } else if (currentStep === 3) {
+    buttonGroupContent += `
+    <button class="action-button-group__previous">
+      <div class="action-button-group__arrow-left"></div>
+      <div class="action-button-group__line-left"></div>
+      上一步
+    </button>
+    <button class="action-button-group__next">
+      確認下單
+    </button>
+    `;
+  } else {
+    buttonGroupContent += `
+    <button class="action-button-group__previous">
+      <div class="action-button-group__arrow-left"></div>
+      <div class="action-button-group__line-left"></div>
+      上一步
+    </button>
+    <button class="action-button-group__next">
+      下一步
+      <div class="action-button-group__line-right"></div>
+      <div class="action-button-group__arrow-right"></div>
+    </button>
+    `;
+  }
+
+  buttonGroup.innerHTML = buttonGroupContent;
+
+  const nextButton = document.querySelector(".action-button-group__next");
+  const prevButton = document.querySelector(".action-button-group__previous");
+
+  nextButton.addEventListener("click", () => {
+    if (currentStep !== 3) {
+      stepperItems[currentStep - 1].isFinished = true;
+      currentStep = currentStep + 1;
+      getFullWhenLoaded();
+    } else return;
+  });
+
+  prevButton.addEventListener("click", () => {
+    if (currentStep !== 1) {
+      stepperItems[currentStep - 2].isFinished = false;
+      currentStep = currentStep - 1;
+      getFullWhenLoaded();
+    } else return;
+  });
+};
+
+const getFullWhenLoaded = () => {
+  // getHeaderList()
+  getSubTitle();
   getStepper();
   getFormContent();
+  getProductInfo();
+  getActionButtonGroupContent();
+  // getFooterContent()
 };
 
-renderFullPage();
+getFullWhenLoaded();

@@ -8,13 +8,12 @@ module.exports = {
   output: {
     path: path.resolve(__dirname, "dist"),
     filename: "bundle.js",
-    publicPath: "auto",
   },
   devtool: "eval",
   module: {
     rules: [
       {
-        test: /\.scss$/,
+        test: /\.s[ac]ss$/i,
         use: [MiniCssExtractPlugin.loader, "css-loader", "sass-loader"],
       },
       {
@@ -33,6 +32,7 @@ module.exports = {
           {
             loader: "file-loader",
             options: {
+              // 配置 name 屬性 (第二步)
               name: "[name].[ext]",
             },
           },
@@ -40,18 +40,17 @@ module.exports = {
       },
     ],
   },
-  devServer: {
-    // static: {
-    //   directory: path.join(__dirname, "dist"),
-    // },
-    static: "./dist",
-    compress: true,
-    port: 9000,
-  },
   plugins: [
     new MiniCssExtractPlugin(),
     new HtmlWebpackPlugin({
       template: "index.html",
     }),
   ],
+  resolve: {
+    extensions: ["", ".js"],
+  },
+  devServer: {
+    static: "./dist",
+    port: 9000,
+  },
 };

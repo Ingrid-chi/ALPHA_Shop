@@ -1,21 +1,86 @@
-input,
-select {
-  border: 1px solid $border-black;
-  border-radius: 4px;
+@import "./variables";
+
+// > 代表 body 裡面；* 代表所有的
+body > * {
+  font-family: "Noto Sans TC";
+}
+
+// %headerGrid {
+//   display: grid;
+//   grid-auto-flow: column;
+//   grid-auto-columns: max-content;
+//   column-gap: 32px;
+// }
+
+%mainTitle {
+  font-style: normal;
+  font-weight: 700;
+  line-height: 38px;
+  color: $light-black-text;
+}
+
+%subTitle {
+  font-style: normal;
+  font-weight: 700;
+  font-size: 24px;
+  line-height: 24px;
+  color: $light-black-text;
+}
+
+%middleTitle {
+  font-style: normal;
+  font-weight: 700;
+  font-size: 18px;
+  line-height: 22px;
+}
+
+%smallTitle {
+  font-style: normal;
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 17px;
+}
+
+%primaryText {
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 24px;
+  color: $light-black-text;
+}
+
+%textCaption-1 {
+  font-style: normal;
+  font-weight: 400;
   font-size: 12px;
-  font-weight: 400;
-  padding: 12px 16px;
+  line-height: 16px;
 }
 
-%btn-back {
+%stepButtonText {
+  font-style: normal;
+  font-weight: 400;
   font-size: 14px;
-  font-weight: 400;
-  color: $black;
-}
+  line-height: 20px;
 
-%btn-forward {
   border-radius: 8px;
-  background-color: $pink;
-  color: $white;
-  font-size: 14px;
+}
+
+// %footerContentText {
+//   font-style: normal;
+//   font-weight: 400;
+//   font-size: 16px;
+//   line-height: 17px;
+// }
+
+%btn {
+  border: 0;
+  padding: 0;
+  background-color: transparent;
+}
+
+%cartBtn {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background-color: $light-gray;
 }

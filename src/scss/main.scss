@@ -1,462 +1,559 @@
-@import "./foundation/variables";
-@import "./foundation/reset";
 @import "./foundation/font";
-@import "./foundation/style";
 @import "./foundation/mixin";
+@import "./foundation/reset";
+@import "./foundation/style";
+@import "./foundation/variables";
 
-/*《《《《《 手機版 》》》》》 */
-.desktop {
-  display: none;
+input,
+select {
+  width: 100%;
+  height: 40px;
+
+  &:focus-visible {
+    outline: $pink auto 1px;
+  }
 }
 
-body {
-  max-width: 345px;
-  background-color: $white;
-  color: $main-black;
-  font-size: 16px;
-  font-weight: 500;
-  font-family: "Noto Sans TC";
+.wrapper {
+  max-width: $mobile;
+  margin: 0 auto;
+  padding-bottom: 40px;
+  position: relative;
 
-  header {
-    height: 56px;
-    background-color: $pink;
+  @include desktop {
+    max-width: $desktop;
+    padding-bottom: 120px;
+  }
+}
+
+// header
+
+.container {
+  padding: 16px 15px 0;
+
+  @include desktop {
+    padding-top: 80px;
   }
 
-  .main-content {
-    display: flex;
+  &__title {
+    @extend %mainTitle;
+    font-size: 24px;
+
+    @include desktop {
+      font-size: 32px;
+    }
+  }
+
+  &__sub-title {
+    @extend %subTitle;
+    padding-top: 24px;
+
+    @include desktop {
+      padding-top: 64px;
+    }
+  }
+
+  &__middle-title {
+    @extend %middleTitle;
+    display: none;
+
+    @include desktop {
+      display: block;
+    }
+  }
+}
+
+.payment-content {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  grid-template-rows: max-content max-content max-content;
+  column-gap: 30px;
+  padding-top: 24px;
+
+  @include desktop {
+    grid-template-columns: repeat(12, 1fr);
+    grid-template-rows: max-content 70px;
+    padding-top: 48px;
+  }
+
+  &__shipping-info {
+    @include flex-layout(flex-start, center);
     flex-direction: column;
-  }
+    align-items: stretch;
+    grid-column: 1 / 7;
+    grid-row: 1 / 2;
 
-  // ★★★ checkout-content ★★★
-  // ★ stepper-panel ★
-  .checkout-content {
-    .stepper-panel {
-      h2 {
-        font-size: 24px;
-        font-weight: 700;
-      }
-      &__container {
-        display: grid;
-        grid-template-columns: auto 1fr auto 1fr auto;
-        align-items: center;
-        column-gap: 32px;
-
-        .step-line {
-          height: 2px;
-          width: 100%;
-          background-color: $black;
-          justify-content: center;
-        }
-      }
-
-      .step {
-        grid-column: auto;
-        padding: 24px 0 24px 0;
-        text-align: center;
-        line-height: 32px;
-        @include getStepNums(5);
-
-        // step-circle
-        .step-circle {
-          margin: 0 auto;
-          height: 32px;
-          width: 32px;
-          min-width: 32px;
-          background-color: $white;
-          border: 1px solid $step-default-gray;
-          border-radius: 50%;
-          color: $step-default-gray;
-        }
-
-        &.checked .step-circle::after {
-          content: "\2714";
-        }
-
-        &.checked {
-          .step-circle {
-            background-color: $step-checked-black;
-            border: 1px solid $step-checked-black;
-            color: $white;
-          }
-        }
-
-        &.active {
-          .step-circle {
-            background-color: $white;
-            border: 1px solid $main-black;
-            color: $main-black;
-          }
-
-          .step-line {
-            grid-column: 1fr;
-            height: 2px;
-            background-color: $black;
-          }
-        }
-
-        // step-line
-        .step-line {
-          height: 1px;
-          width: 60px;
-          background-color: $border-gray;
-          justify-content: center;
-        }
-      }
+    @include desktop {
+      grid-column: 1 / 7;
     }
-  }
 
-  // ★ form-panel ★
-  .form-panel {
-    h2 {
-      font-size: 24px;
-      font-weight: 700;
-    }
-    .form-panel__container {
+    &__stepper-container {
       display: grid;
-      grid-template-columns: repeat(6, 1fr);
-      grid-auto-rows: max-content;
-      column-gap: 30px;
+      grid-template-columns: auto 1fr auto 1fr auto;
+      @include flex-layout(space-between, center);
+      column-gap: 32px;
+    }
+  }
 
-      &__title {
-        display: flex;
-        flex-direction: column;
-        grid-column: 1 / 3;
-        grid-row: 1 / 2;
+  &__cart {
+    border: 1px solid $light-gray;
+    border-radius: 8px;
+
+    display: grid;
+    //   // 多的格子一行一行陳列
+    grid-auto-flow: row;
+    grid-auto-rows: max-content;
+    row-gap: 34px;
+
+    grid-column: 1 / 7;
+    grid-row: 2 / 3;
+
+    margin-top: 32px;
+    padding: 18px 16px;
+
+    @include desktop {
+      grid-column: 8 / 13;
+      grid-row: 1 / 3;
+
+      margin: 0;
+      padding: 32px 24px;
+    }
+  }
+}
+
+.stepper {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: max-content;
+  column-gap: 8px;
+  align-items: center;
+
+  &__circle {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    border: 1px solid $light-black-text;
+
+    @include flex-layout(center, center);
+
+    background-color: $background-color-light;
+    color: $light-black-text;
+
+    &__active {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      border: 1px solid $light-black-text;
+
+      @include flex-layout(center, center);
+
+      background-color: $light-black-text;
+      color: $background-color-light;
+    }
+  }
+
+  &__text {
+    @extend %primaryText;
+    display: none;
+
+    @include desktop {
+      display: block;
+    }
+  }
+
+  &__line {
+    height: 1px;
+    width: 100%;
+
+    background-color: $light-black-text;
+    color: $background-color-light;
+  }
+}
+
+.form-panel {
+  padding-top: 24px;
+
+  &__row {
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    grid-auto-rows: max-content;
+    column-gap: 30px;
+    row-gap: 16px;
+
+    &__input-1 {
+      grid-column: 1 / 4;
+      grid-row: 1 / 2;
+    }
+
+    &__input-2 {
+      grid-column: 4 / 7;
+      grid-row: 1 / 2;
+    }
+
+    &__input-3 {
+      grid-column: 1 / 7;
+      grid-row: 2 / 3;
+    }
+
+    &__input-4 {
+      grid-column: 1 / 7;
+      grid-row: 3 / 4;
+    }
+
+    &__input-5 {
+      grid-column: 1 / 7;
+      grid-row: 4 / 5;
+    }
+
+    &__input-6 {
+      grid-column: 1 / 7;
+      grid-row: 5 / 6;
+    }
+
+    &__input-field {
+      @include flex-layout(flex-start, flex-start);
+      flex-direction: column;
+      position: relative;
+
+      &__select {
+        appearance: none;
+        border-radius: 4px;
       }
 
-      &__name {
-        display: flex;
-        flex-direction: column;
-        grid-column: 3 / 7;
-        grid-row: 1 / 2;
+      &__icon {
+        position: absolute;
+        right: 18px;
+        bottom: 18px;
+
+        width: 0;
+        height: 0;
+        border-left: 8px solid transparent;
+        border-right: 8px solid transparent;
+        border-top: 8px solid $light-black-text;
       }
 
-      &__phone {
-        display: flex;
-        flex-direction: column;
-        grid-column: 1 / 7;
+      // form-panel 裡面第二個 div ( input 框 ) 加上這些
+      :nth-child(2) {
+        margin-top: 8px;
+        padding: 0 16px;
+      }
+      // ※※※※※
+      > label {
+        @extend %textCaption-1;
+        font-weight: 700;
+        color: $gray-text;
+      }
+    }
+
+    &__step-3 {
+      &__input-1 {
+        grid-column: 1 / 5;
+        grid-row: 1 / 2;
+      }
+      &__input-2 {
+        grid-column: 1 / 5;
         grid-row: 2 / 3;
       }
-
-      &__email {
-        display: flex;
-        flex-direction: column;
-        grid-column: 1 / 7;
+      &__input-3 {
+        grid-column: 1 / 4;
         grid-row: 3 / 4;
       }
-
-      &__local {
-        display: flex;
-        flex-direction: column;
-        grid-column: 1 / 7;
-        grid-row: 4 / 5;
-      }
-
-      &__address {
-        display: flex;
-        flex-direction: column;
-        grid-column: 1 / 7;
-        grid-row: 5 / 6;
-      }
-
-      .form-label {
-        font-size: 12px;
-        font-weight: 700;
-        color: $form-label-gray;
-        padding: 24px 0 8px 0;
+      &__input-4 {
+        grid-column: 4 / 7;
+        grid-row: 3 / 4;
       }
     }
-  }
-}
-// select {
-//   @extend %input-style;
-//   // 取消三角形預設樣式
-//   -webkit-appearance: none;
-//   cursor: pointer;
-// }
 
-// // 製作三角形樣式
-// .select-wrapper {
-//   position: relative;
-//   &::after {
-//     content: "\25BE";
-//     position: absolute;
-//     top: 50%;
-//     right: 8px;
-//     // 以 -50% 的 Y 軸高度作為移動距離
-//     transform: translateY(-50%);
-//   }
-// }
+    @include desktop {
+      &__row {
+        row-gap: 24px;
 
-// ★ cart-content ★
-.cart-content {
-  border: 1px solid $border-gray;
-  border-radius: 8px;
-  padding: 16px;
-  margin-top: 32px;
-
-  .cart-panel {
-    &__product {
-      display: flex;
-      flex-direction: row;
-      justify-content: space-between;
-      padding-bottom: 16px;
-
-      &__img {
-        width: 100px;
-        height: 100px;
-      }
-
-      &__unconfirmed {
-        display: grid;
-        grid-template-rows: repeat(3, 1fr);
-        justify-items: flex-end;
-        align-items: center;
-
-        &__name {
-          grid-row: 1/2;
+        &__input-1 {
+          grid-column: 1 / 3;
+          grid-row: 1 / 2;
         }
 
-        .cart-btn {
-          grid-row: 2/3;
+        &__input-2 {
+          grid-column: 3 / 7;
+          grid-row: 1 / 2;
         }
 
-        &__price {
-          grid-row: 3/4;
-        }
-      }
-
-      .cart-btn {
-        display: flex;
-        flex-direction: row;
-        .cart-btn-minus,
-        .cart-btn-add {
-          width: 26px;
-          height: 26px;
-          border-radius: 50%;
-          background-color: $border-gray;
+        &__input-3 {
+          grid-column: 1 / 4;
+          grid-row: 2 / 3;
         }
 
-        .cart-btn-count {
-          display: block;
-          width: 53px;
-          height: 17px;
-          padding: 0 5px;
-          text-align: center;
-          font-size: 14px;
+        &__input-4 {
+          grid-column: 4 / 7;
+          grid-row: 2 / 3;
+        }
+
+        &__input-5 {
+          grid-column: 1 / 3;
+          grid-row: 3 / 4;
+        }
+
+        &__input-6 {
+          grid-column: 3 / 7;
+          grid-row: 3 / 4;
         }
       }
     }
   }
-}
+  // ※※※※※
+  &__radio-btn-group {
+    display: grid;
+    grid-auto-flow: row;
+    grid-auto-rows: max-content;
+    row-gap: 24px;
 
-// ★ cart-total ★
-.cart-total__product {
-  &__delivery,
-  &__subtotal {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    padding: 16px 0;
-    border-top: 1px solid $border-gray;
+    .radio-container {
+      overflow: hidden;
+      display: block;
+      position: relative;
+      padding-left: 60px;
+      cursor: pointer;
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      user-select: none;
 
-    &__title {
-      font-size: 14px;
-      font-weight: 400;
+      @include flex-layout(flex-start, center);
     }
 
-    &__result {
-      font-size: 14px;
-      font-weight: 700;
-      color: $black;
-    }
-  }
-}
-
-// ★★★ button ★★★
-.btn-content {
-  .btn-line {
-    width: 100%;
-    height: 1px;
-    background-color: $border-gray-btn;
-    margin: 32px 0 24px 0;
-  }
-  .btn-panel {
-    .btn-back {
-      @extend %btn-back;
-      &.default {
-        display: none;
-      }
-    }
-    .btn-forward {
-      button {
-        width: 100%;
-        height: 46px;
-        @extend %btn-forward;
-      }
-    }
-  }
-}
-
-/*《《《《《 桌機版 》》》》》 */
-@media screen and (min-width: 375px) {
-  .desktop {
-    display: block;
-  }
-
-  body {
-    max-width: 1110px;
-    margin: 0 auto;
-    header {
-      height: 60px;
-      background-color: $border-gray;
+    //   // Hide the browser's default radio button
+    .radio-container input {
+      position: absolute;
+      opacity: 0;
+      cursor: pointer;
     }
 
-    .main-content {
-      padding-top: 80px;
-      display: grid;
-      grid-template-columns: repeat(12, 1fr);
-      grid-template-rows: max-content max-content;
-      grid-column-gap: 15px;
+    // Create a custom radio button
+    .checkmark {
+      margin: 20px;
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: 20px;
+      width: 20px;
+      background-color: #eee;
+      border-radius: 50%;
+    }
 
-      .checkout-content {
-        grid-column: 1 / 7;
-        grid-row: 1 / 2;
+    // On mouse-over, add a grey background color
+    .radio-container:hover input ~ .checkmark {
+      background-color: #ccc;
+    }
+
+    // When the radio button is checked, add a blue background
+    .radio-container input:checked ~ .checkmark {
+      background-color: $black;
+    }
+
+    // Create the indicator (the dot/circle - hidden when not checked)
+    .checkmark:after {
+      content: "";
+      position: absolute;
+      display: none;
+    }
+
+    // Show the indicator (dot/circle) when checked
+    .radio-container input:checked ~ .checkmark:after {
+      display: block;
+    }
+
+    // Style the indicator (dot/circle)
+    .radio-container .checkmark:after {
+      top: 6px;
+      left: 6px;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: white;
+    }
+
+    &__option {
+      @include flex-layout(flex-start, center);
+      grid-auto-columns: max-content;
+      border: 1px solid $light-gray;
+      border-radius: 4px;
+      padding: 10px;
+      position: relative;
+
+      &__checked {
+        border: 1px solid $black;
       }
 
-      .cart-content {
-        grid-column: 8 / 13;
-        grid-row: 1 / 3;
-      }
-
-      .btn-content {
-        grid-column: 1 / 7;
-        grid-row: 2 / 3;
-
-        align-self: end;
-
-        .btn-line {
-          margin: 48px 0 24px 0;
-        }
-        .btn-panel {
-          display: flex;
-          flex-direction: row;
-          justify-content: space-between;
-          align-items: center;
-
-          .btn-back {
-          }
-
-          .btn-forward {
-            button {
-              padding: 15px 50px;
-            }
-          }
-        }
-      }
-
-      .stepper-panel {
-        h2 {
-          font-size: 32px;
-        }
-        &__container {
-          .step {
-            display: flex;
-            flex-direction: row;
-            font-size: 16px;
-            .step-label {
-              padding-left: 8px;
-
-              font-weight: 400;
-            }
-          }
-        }
-      }
-
-      // ★ form-panel ★
-      .form-panel {
-        &__container {
-          &__title {
-            grid-column: 1 / 3;
-            grid-row: 1 / 2;
-          }
-
-          &__name {
-            grid-column: 3 / 7;
-            grid-row: 1 / 2;
-          }
-
-          &__phone {
-            grid-column: 1 / 4;
-            grid-row: 2 / 3;
-          }
-
-          &__email {
-            grid-column: 4 / 7;
-            grid-row: 2 / 3;
-          }
-
-          &__local {
-            grid-column: 1 / 3;
-            grid-row: 3 / 4;
-          }
-
-          &__address {
-            grid-column: 3 / 7;
-            grid-row: 3 / 4;
-          }
-        }
-      }
-
-      // ★★★ cart-content ★★★
-      .cart-content {
-        padding: 0 24px;
-        h2 {
-          font-size: 18px;
+      &__description {
+        :nth-child(1) {
+          @extend %stepButtonText;
           font-weight: 700;
-          padding: 32px 0;
+          padding-bottom: 2px;
         }
 
-        .cart-panel {
-          &__product {
-            position: relative;
-            &__img {
-            }
-            &__unconfirmed {
-              &__name {
-                position: absolute;
-                top: 0;
-                left: 120px;
-                font-weight: 400;
-              }
-
-              .cart-btn {
-                position: absolute;
-                top: 42px;
-                left: 120px;
-                .cart-btn-count {
-                  font-size: 14px;
-                  color: $black;
-                }
-              }
-
-              &__price {
-                position: absolute;
-                top: 0;
-                right: 0;
-                font-weight: 700;
-                color: $black;
-              }
-            }
-          }
+        :nth-child(2) {
+          @extend %textCaption-1;
         }
       }
-    }
-    // ★★★★★ footer ★★★★★
-    footer {
-      margin-top: 120px;
-      height: 284px;
-      background-color: $border-gray;
+
+      > p {
+        @extend %textCaption-1;
+        position: absolute;
+        top: 20px;
+        right: 20px;
+      }
     }
   }
 }
+
+.action-button-group {
+  @include flex-layout(space-between, center);
+  padding-top: 24px;
+  border-top: 1px solid $light-gray;
+
+  grid-column: 1 / 7;
+  grid-row: 3 / 4;
+
+  .step-1 {
+    width: 100%;
+    justify-content: center;
+  }
+
+  @include desktop {
+    grid-row: 2 / 3;
+  }
+
+  &__previous {
+    @extend %btn;
+    @extend %stepButtonText;
+    @include flex-layout(space-between, center);
+
+    color: $black;
+  }
+
+  &__next {
+    @extend %btn;
+    @extend %stepButtonText;
+    @include flex-layout(space-between, center);
+
+    background-color: $pink;
+    color: $white;
+    padding: 15px 48px;
+  }
+
+  &__arrow-left {
+    border: solid $black;
+    border-width: 0 1px 1px 0;
+    display: inline-block;
+    padding: 3px;
+
+    transform: rotate(135deg);
+    -webkit-transform: rotate(135deg);
+  }
+
+  &__arrow-right {
+    border: solid $white;
+    border-width: 0 1px 1px 0;
+    display: inline-block;
+    padding: 3px;
+
+    transform: rotate(-45deg);
+    -webkit-transform: rotate(-45deg);
+  }
+  &__line-left {
+    width: 28px;
+    height: 1px;
+    background-color: $black;
+
+    margin-left: -8px;
+    margin-right: 12px;
+
+    &.left {
+      margin-left: -8px;
+      margin-right: 12px;
+    }
+
+    &.right {
+      margin-right: -8px;
+      margin-left: 12px;
+    }
+  }
+
+  &__line-right {
+    width: 28px;
+    height: 1px;
+    background-color: $white;
+
+    margin-right: -8px;
+    margin-left: 12px;
+  }
+}
+
+.product-panel {
+  display: grid;
+  grid-auto-flow: row;
+  grid-auto-rows: max-content;
+  row-gap: 34px;
+
+  &__product {
+    display: grid;
+    grid-template-columns: 100px 1fr;
+    grid-template-rows: 100px;
+    column-gap: 20px;
+
+    &__info {
+      @include flex-layout(space-between, flex-start);
+      flex-direction: column;
+      align-items: flex-end;
+
+      > div {
+        @include flex-layout(flex-start, flex-end);
+        flex-direction: column;
+      }
+
+      @include desktop {
+      }
+
+      > div > p {
+        @extend %primaryText;
+        padding-bottom: 18px;
+        font-weight: 700;
+      }
+    }
+  }
+
+  &__button-group {
+    @include flex-layout(space-between, center);
+    width: 90px;
+
+    &__plus {
+      @extend %btn;
+      @extend %cartBtn;
+    }
+
+    &__minus {
+      @extend %btn;
+      @extend %cartBtn;
+    }
+  }
+
+  &__calculator {
+    border-top: 1px solid $light-gray;
+
+    &__content {
+      padding-top: 16px;
+      @include flex-layout(space-between, center);
+
+      :nth-child(1) {
+        @extend %stepButtonText;
+      }
+
+      :nth-child(2) {
+        @extend %smallTitle;
+      }
+    }
+  }
+}
+
+// footer
