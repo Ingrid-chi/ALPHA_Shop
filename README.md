@@ -39,10 +39,10 @@ npm run lint
 
 ### 開發工具
 
-> webpack @5.73.0
-> webpack-cli @4.10.0
-> webpack-dev-server @4.9.2
-> mini-css-extract-plugin @2.6.0
-> css-loader @6.7.1
-> sass-loader @13.0.0
+> webpack @5.73.0  
+> webpack-cli @4.10.0  
+> webpack-dev-server @4.9.2  
+> mini-css-extract-plugin @2.6.0  
+> css-loader @6.7.1  
+> sass-loader @13.0.0  
 > node-sass @7.0.1

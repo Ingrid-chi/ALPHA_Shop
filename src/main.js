@@ -12,11 +12,13 @@ import {
   citiesItems,
   productInfo,
   shippingMethods,
-  footerInformation,
+  // footerInformation,
 } from "./config/pageConfigs";
 
 // 設定一個當前的 step
 let currentStep = 1;
+let totalPrice = 0;
+let fee = 0;
 
 // header 左側選單
 // const list = document.querySelector(".header__header-list");
@@ -32,6 +34,10 @@ const formPanel = document.querySelector(".form-panel");
 
 // container 右側 cart
 const productPanel = document.querySelector(".product-panel");
+
+const totalPriceText = document.querySelector(".total-price");
+
+const shippingFeeText = document.querySelector(".shipping-fee");
 
 //
 // 導入 header 左側選單資料
@@ -158,8 +164,13 @@ const getFormContent = () => {
             <p>${item.title}</p>
             <p>${item.description}</p>
           </div>
-          <input type="radio" name="radio">
+          <input class="radio-input" type="radio" name="radio" value="${
+            item.price
+          }">
           <span class="checkmark"></span>
+          <p class="form-panel__radio-btn-group__option__shipping-fee">
+            ${item.price === 0 ? "免費" : "$" + item.price}
+          </p>
         </label>
       `;
       });
@@ -203,6 +214,16 @@ const getFormContent = () => {
         option.classList.add("form-panel__radio-btn-group__option__checked");
       });
     });
+
+    formPanel.addEventListener("click", (e) => {
+      if (e.target.classList.contains("radio-input")) {
+        const feeValue = Number(e.target.value);
+        shippingFeeText.innerHTML = feeValue === 0 ? "免費" : "$" + feeValue;
+        totalPriceText.innerHTML =
+          "$" + (totalPrice + feeValue).toLocaleString();
+        fee = feeValue;
+      }
+    });
   }
 };
 
@@ -211,7 +232,7 @@ const getProductInfo = () => {
   let productContent = "";
 
   productInfo.forEach(
-    (item) =>
+    (item, index) =>
       (productContent += `
   <div class="product-panel__product">
     <img src="${item.image}" />
@@ -219,11 +240,19 @@ const getProductInfo = () => {
       <div>
         <p>${item.name}</p>
         <div class="product-panel__button-group">
-          <button class="product-panel__button-group__minus">
+          <button
+            data-productindex="${index}"
+            data-productprice="${item.price}"
+            class="product-panel__button-group__minus">
             -
           </button>
-          <p>1</p>
-          <button class="product-panel__button-group__plus">
+          <p
+            data-productindex="${index}"
+            class="count">0</p>
+          <button
+            data-productindex="${index}"
+            data-productprice="${item.price}"
+            class="product-panel__button-group__plus">
             +
           </button>
         </div>
@@ -235,6 +264,36 @@ const getProductInfo = () => {
   );
 
   productPanel.innerHTML = productContent;
+
+  const countText = document.querySelectorAll(".count");
+
+  const totalPriceTop = "$";
+  let priceSum = 0;
+
+  totalPriceText.innerHTML = totalPriceTop + priceSum;
+
+  // add event listener to productPanel and trigger function refer to class name accordingly
+  productPanel.addEventListener("click", (e) => {
+    const target = e.target;
+    const index = target.dataset.productindex;
+    const price = Number(target.dataset.productprice);
+    let currentCountText = countText[index];
+
+    if (target.classList.contains("product-panel__button-group__plus")) {
+      currentCountText.innerHTML = Number(currentCountText.innerHTML) + 1;
+      priceSum += price;
+    } else if (
+      target.classList.contains("product-panel__button-group__minus")
+    ) {
+      if (currentCountText.innerHTML === "0") return;
+
+      currentCountText.innerHTML = Number(currentCountText.innerHTML) - 1;
+      priceSum -= price;
+    }
+    totalPrice = priceSum;
+    totalPriceText.innerHTML =
+      totalPriceTop + (totalPrice + fee).toLocaleString();
+  });
 };
 
 const getActionButtonGroupContent = () => {
@@ -288,6 +347,7 @@ const getActionButtonGroupContent = () => {
       stepperItems[currentStep - 1].isFinished = true;
       currentStep = currentStep + 1;
       getFullWhenLoaded();
+      totalPriceText.innerHTML = "$" + (totalPrice + fee).toLocaleString();
     } else return;
   });
 
@@ -296,6 +356,7 @@ const getActionButtonGroupContent = () => {
       stepperItems[currentStep - 2].isFinished = false;
       currentStep = currentStep - 1;
       getFullWhenLoaded();
+      totalPriceText.innerHTML = "$" + (totalPrice + fee).toLocaleString();
     } else return;
   });
 };
